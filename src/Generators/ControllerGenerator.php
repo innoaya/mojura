@@ -14,12 +14,14 @@ class ControllerGenerator extends Generator
      *
      * @throws Exception
      */
-    public function generate(string $controller, string $module, bool $force = false): string
+    public function generate(string $controller, string $module, string $directory = null, bool $force = false): string
     {
         $controller = Str::controller($controller);
         $module = Str::module($module);
 
-        $directoryPath = app_path("Modules/{$module}/Http/Controllers");
+        $path = $directory !== null ? "Modules/{$module}/Http/Controllers/{$directory}" : "Modules/{$module}/Http/Controllers";
+
+        $directoryPath = app_path($path);
         $filename = "$controller.php";
         $filePath = "$directoryPath/$filename";
 
@@ -28,7 +30,7 @@ class ControllerGenerator extends Generator
         $stubContents = $this->getStubContents();
 
         $stubContents = $this->replacePlaceholders($stubContents, [
-            'namespace' => "App\\Modules\\{$module}\\Http\\Controllers",
+            'namespace' => $directory !== null ? "App\\Modules\\{$module}\\Http\\Controllers\\{$directory}" : "App\\Modules\\{$module}\\Http\\Controllers",
             'controller' => $controller,
         ]);
 

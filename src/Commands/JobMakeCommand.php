@@ -14,6 +14,7 @@ class JobMakeCommand extends BaseCommand
     public $signature = 'mojura:job
                         {job : Job}
                         {module : Module}
+                        {directory? : Directory}
                         {--Q|queue : Make the job queueable}
                         {--F|force : Overwrite existing files}';
 
@@ -32,10 +33,11 @@ class JobMakeCommand extends BaseCommand
         try {
             $job = $this->argument('job');
             $module = $this->argument('module');
+            $directory = $this->argument('directory');
             $queueable = $this->option('queue');
             $force = $this->option('force');
 
-            $output = (new JobGenerator())->generate($job, $module, $queueable, $force);
+            $output = (new JobGenerator())->generate($job, $module, $directory, $queueable, $force);
 
             $this->printFileGeneratedOutput($output);
         } catch (\Exception $exception) {

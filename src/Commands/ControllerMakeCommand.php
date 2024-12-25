@@ -14,6 +14,7 @@ class ControllerMakeCommand extends BaseCommand
     public $signature = 'mojura:controller
                         {controller : Controller}
                         {module : Module}
+                        {directory? : Directory}
                         {--F|force : Overwrite existing files}';
 
     /**
@@ -31,9 +32,10 @@ class ControllerMakeCommand extends BaseCommand
         try {
             $feature = $this->argument('controller');
             $module = $this->argument('module');
+            $directory = $this->argument('directory');
             $force = $this->option('force');
 
-            $output = (new ControllerGenerator())->generate($feature, $module, $force);
+            $output = (new ControllerGenerator())->generate($feature, $module, $directory, $force);
 
             $this->printFileGeneratedOutput($output);
         } catch (\Exception $exception) {

@@ -14,6 +14,7 @@ class RequestMakeCommand extends BaseCommand
     public $signature = 'mojura:request
                         {request : Request}
                         {module : Module}
+                        {directory? : Directory}
                         {--F|force : Overwrite existing files}';
 
     /**
@@ -31,9 +32,10 @@ class RequestMakeCommand extends BaseCommand
         try {
             $request = $this->argument('request');
             $module = $this->argument('module');
+            $directory = $this->argument('directory');
             $force = $this->option('force');
 
-            $output = (new RequestGenerator())->generate($request, $module, $force);
+            $output = (new RequestGenerator())->generate($request, $module, $directory, $force);
 
             $this->printFileGeneratedOutput($output);
         } catch (\Exception $exception) {

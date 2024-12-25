@@ -14,6 +14,7 @@ class FeatureMakeCommand extends BaseCommand
     public $signature = 'mojura:feature
                         {feature : Feature}
                         {module : Module}
+                        {directory? : Directory}
                         {--F|force : Overwrite existing files}';
 
     /**
@@ -31,9 +32,10 @@ class FeatureMakeCommand extends BaseCommand
         try {
             $feature = $this->argument('feature');
             $module = $this->argument('module');
+            $directory = $this->argument('directory');
             $force = $this->option('force');
 
-            $output = (new FeatureGenerator())->generate($feature, $module, $force);
+            $output = (new FeatureGenerator())->generate($feature, $module, $directory, $force);
 
             $this->printFileGeneratedOutput($output);
         } catch (\Exception $exception) {

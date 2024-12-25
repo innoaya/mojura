@@ -14,12 +14,14 @@ class FeatureGenerator extends Generator
      *
      * @throws Exception
      */
-    public function generate(string $feature, string $module, bool $force = false): string
+    public function generate(string $feature, string $module, string $directory = null, bool $force = false): string
     {
         $feature = Str::feature($feature);
         $module = Str::module($module);
 
-        $directoryPath = app_path("Modules/{$module}/Features");
+        $path = $directory !== null ? "Modules/{$module}/Features/{$directory}" : "Modules/{$module}/Features";
+
+        $directoryPath = app_path($path);
         $filename = "$feature.php";
         $filePath = "$directoryPath/$filename";
 
@@ -28,7 +30,7 @@ class FeatureGenerator extends Generator
         $stubContents = $this->getStubContents();
 
         $stubContents = $this->replacePlaceholders($stubContents, [
-            'namespace' => "App\\Modules\\$module\\Features",
+            'namespace' => $directory !== null ? "App\\Modules\\{$module}\\Features\\{$directory}" : "App\\Modules\\{$module}\\Features",
             'feature' => $feature,
         ]);
 
